@@ -1,0 +1,3 @@
+export type FulfillmentOrder={externalId:string;variantId:string;quantity:number;shipping:Record<string,string>};
+export interface FulfillmentProvider{name:string;estimate(id:string):Promise<{cents:number;productionDays:number}>;submit(o:FulfillmentOrder):Promise<{providerOrderId:string;status:string}>;status(id:string):Promise<string>}
+export class PrintfulProvider implements FulfillmentProvider{name="Printful";constructor(private token=process.env.PRINTFUL_API_TOKEN??"sandbox"){}async estimate(id:string){void this.token;return{cents:id.includes("premium")?2400:1500,productionDays:id.includes("premium")?6:4}}async submit(o:FulfillmentOrder){return{providerOrderId:`sandbox_${o.externalId}`,status:"draft"}}async status(){return"draft"}}

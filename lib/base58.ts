@@ -1,0 +1,2 @@
+const alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+export function decodeBase58(value:string){const bytes=[0];for(const char of value){const digit=alphabet.indexOf(char);if(digit<0)throw new Error("Invalid base58 value");let carry=digit;for(let i=0;i<bytes.length;i++){carry+=bytes[i]*58;bytes[i]=carry&255;carry>>=8}while(carry){bytes.push(carry&255);carry>>=8}}for(let i=0;value[i]==="1"&&i<value.length-1;i++)bytes.push(0);return new Uint8Array(bytes.reverse())}
